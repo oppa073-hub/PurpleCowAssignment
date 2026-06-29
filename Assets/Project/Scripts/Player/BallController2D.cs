@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
-
+using System;
 public class BallController2D : MonoBehaviour
 {
     [SerializeField] private BallData ballData;
 
     private Rigidbody2D rb;
     private bool isMoving;
+
+    public event Action OnRecovered;
 
     private void Awake()
     {
@@ -37,6 +39,8 @@ public class BallController2D : MonoBehaviour
 
         isMoving = false;
         rb.linearVelocity = Vector2.zero;
-        transform.position = Vector2.zero; // 임시
+        transform.position = Vector2.zero;
+
+        OnRecovered?.Invoke();
     }
 }
