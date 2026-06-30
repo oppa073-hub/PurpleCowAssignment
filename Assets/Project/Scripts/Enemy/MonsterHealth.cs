@@ -14,6 +14,9 @@ public class MonsterHealth : MonoBehaviour
     {
         monsterData = data;
         currentHp = monsterData.maxHp;
+
+        MonsterMover mover = GetComponent<MonsterMover>();
+        if (mover != null) mover.Initialize(data);
     }
 
     public void TakeDamage(int damage)
