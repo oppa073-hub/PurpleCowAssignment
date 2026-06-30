@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -11,46 +12,35 @@ public class GridSpawner : MonoBehaviour
     [SerializeField] private Vector2 startPosition;
     [SerializeField] private Vector2 cellSize = new Vector2(1.5f, 1.5f);
 
-    private bool[,] occupied;
-    private void Awake()
-    {
-        occupied = new bool[rows, columns];
-    }
 
-    private void Update()
+    public List<MonsterHealth> SpawnRandomMonsters(int count)
     {
-        if (Input.GetKeyDown(KeyCode.M))  //임시 테스트
-        {
-            SpawnRandomMonsters(3);  
-        }
-    }
-
-    public void SpawnRandomMonsters(int count)
-    {
-        List<Vector2Int> emptyCells = new List<Vector2Int>();
+        List<MonsterHealth> spawnedMonsters = new();
+        List<Vector2Int> cells = new();
 
         for (int row = 0; row < rows; row++)
         {
             for (int col = 0; col < columns; col++)
             {
-                if (!occupied[row, col]) emptyCells.Add(new Vector2Int(row, col));
+                cells.Add(new Vector2Int(row, col));
             }
         }
 
         for (int i = 0; i < count; i++)
         {
-            if (emptyCells.Count <= 0) return;
+            if (cells.Count <= 0) break;
 
-            int randomIndex = Random.Range(0, emptyCells.Count);
-            Vector2Int cell = emptyCells[randomIndex];
-            emptyCells.RemoveAt(randomIndex);
+            int randomIndex = Random.Range(0, cells.Count);
+            Vector2Int cell = cells[randomIndex];
+            cells.RemoveAt(randomIndex);
 
-            SpawnMonster(cell.x, cell.y);
-            occupied[cell.x, cell.y] = true;
+            MonsterHealth monster = SpawnMonster(cell.x, cell.y);
+            spawnedMonsters.Add(monster);
         }
-    }
 
-    private void SpawnMonster(int row, int column)  
+        return spawnedMonsters;
+    }
+    private MonsterHealth SpawnMonster(int row, int column)  
     {
         Vector2 spawnPos = GetCellPosition(row, column);
 
@@ -59,6 +49,8 @@ public class GridSpawner : MonoBehaviour
         MonsterHealth monster = Instantiate(data.monsterPrefab, spawnPos, Quaternion.identity);
 
         monster.Initialize(data);
+
+        return monster;
     }
     private Vector2 GetCellPosition(int row, int column)  
     {

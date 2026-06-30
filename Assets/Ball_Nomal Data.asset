@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2225ed42a0400a049939018f59ec4f31, type: 3}
   m_Name: Ball_Nomal Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
+  ballPrefab: {fileID: 6010164062608622154, guid: 3b8d9787e35f7e744b76847293913405, type: 3}
   ballName: 
   damage: 8
   speed: 12

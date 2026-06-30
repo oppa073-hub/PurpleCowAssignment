@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MonsterHealth : MonoBehaviour
 {
     [SerializeField] private MonsterData monsterData;
 
     private int currentHp;
+
+    public event Action<MonsterHealth> OnDead;
 
     private void Awake()
     {
@@ -23,6 +26,10 @@ public class MonsterHealth : MonoBehaviour
     {
         currentHp -= damage;
 
-        if (currentHp <= 0) Destroy(gameObject); //임시
+        if (currentHp <= 0)
+        {
+            OnDead?.Invoke(this);
+            Destroy(gameObject);  //임시
+        }
     }
 }
