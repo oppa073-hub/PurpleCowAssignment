@@ -3,6 +3,7 @@
 [CreateAssetMenu(fileName = "BallData", menuName = "PurpleCow/Ball Data")]
 public class BallData : ScriptableObject
 {
+    public BallController2D ballPrefab;
     public string ballName;
     public int damage = 8;
     public float speed = 12f;

@@ -7,13 +7,16 @@ public class BallController2D : MonoBehaviour
     private Rigidbody2D rb;
     private bool isMoving;
 
-    public event Action OnRecovered;
+    public event Action<BallController2D> OnRecovered;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
+    public void Initialize(BallData data)
+    {
+        ballData = data;
+    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space)) Launch(Vector2.up);  //임시 테스트
@@ -39,8 +42,15 @@ public class BallController2D : MonoBehaviour
 
         isMoving = false;
         rb.linearVelocity = Vector2.zero;
-        transform.position = Vector2.zero;
+        OnRecovered?.Invoke(this);
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!collision.collider.CompareTag("Enemy")) return;
 
-        OnRecovered?.Invoke();
+        MonsterHealth monster = collision.collider.GetComponent<MonsterHealth>();
+
+        if (monster != null)
+            monster.TakeDamage(ballData.damage);
     }
 }
