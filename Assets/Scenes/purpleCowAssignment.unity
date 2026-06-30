@@ -378,6 +378,7 @@ MonoBehaviour:
   - {fileID: 1418268874}
   - {fileID: 1258278302}
   - {fileID: 1251429960}
+  ballManager: {fileID: 2112686503}
 --- !u!4 &117364907
 Transform:
   m_ObjectHideFlags: 0
@@ -3952,6 +3953,7 @@ MonoBehaviour:
   playerShooter: {fileID: 1110650145}
   ballCount: 3
   fireInterval: 0.08
+  inventory: {fileID: 1110650146}
 --- !u!4 &2112686504
 Transform:
   m_ObjectHideFlags: 0

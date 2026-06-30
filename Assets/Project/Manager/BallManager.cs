@@ -10,6 +10,7 @@ public class BallManager : MonoBehaviour
     [SerializeField] private PlayerShooter2D playerShooter;
     [SerializeField] private int ballCount;
     [SerializeField] private float fireInterval = 0.08f;
+    [SerializeField] private PlayerSkillInventory inventory;
     private int nextBallIndex;
 
     private void Start()
@@ -25,7 +26,8 @@ public class BallManager : MonoBehaviour
 
         BallController2D ball = Instantiate(ballData.ballPrefab, firePoint.position, Quaternion.identity);
 
-        ball.Initialize(ballData);
+        int damage = CalculateFinalDamage(ballData);
+        ball.Initialize(ballData, damage);
         ball.OnRecovered += HandleBallRecovered;
         ball.Launch(playerShooter.AimDirection);
     }
@@ -50,5 +52,66 @@ public class BallManager : MonoBehaviour
         ball.OnRecovered -= HandleBallRecovered;
         Destroy(ball.gameObject); //임시
         StartCoroutine(FireOneBall());
+    }
+
+    private int CalculateFinalDamage(BallData ballData)
+    {
+        int damage = GetBallDamage(ballData);
+        damage = ApplyPassiveDamageBonus(damage);
+
+        return damage;
+    }
+
+    private int ApplyPassiveDamageBonus(int damage)  //패시브 적용
+    {
+        for (int i = 0; i < inventory.OwnedSkills.Count; i++)
+        {
+            SkillData skill = inventory.OwnedSkills[i].skillData;
+
+            PassiveSkillData passiveSkill = skill as PassiveSkillData;
+
+            if (passiveSkill == null) continue;
+
+            if (passiveSkill.passiveType == PassiveType.WarmHeart)
+            {
+                int level = inventory.OwnedSkills[i].currentLevel;
+                float bonusRate = passiveSkill.levels[level - 1].value;
+
+                damage = Mathf.RoundToInt(damage * (1f + bonusRate));
+            }
+        }
+        return damage;
+    }
+
+    private int GetBallDamage(BallData ballData)  //데미지 계산
+    {
+        for (int i = 0; i < inventory.OwnedSkills.Count; i++)
+        {
+            SkillData skill = inventory.OwnedSkills[i].skillData;
+
+            ActiveSkillData activeSkill = skill as ActiveSkillData;
+
+            if (activeSkill == null) continue;
+
+            if (activeSkill.linkedBallData == ballData)
+            {
+                int level = inventory.OwnedSkills[i].currentLevel;
+                return activeSkill.levels[level - 1].damage;
+            }
+        }
+
+        return ballData.damage;
+    }
+
+    public void AddBall(BallData ballData)
+    {
+        if (ballData == null) return;
+
+        for (int i = 0; i < equippedBalls.Count; i++)  //중복방지
+        {
+            if (equippedBalls[i] == ballData) return;
+        }
+
+        equippedBalls.Add(ballData);
     }
 }

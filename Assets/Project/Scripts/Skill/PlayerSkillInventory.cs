@@ -54,4 +54,16 @@ public class PlayerSkillInventory : MonoBehaviour
 
         return count;
     }
+    public PlayerSkill GetPlayerSkill(SkillData skill) 
+    {
+        for (int i = 0; i < ownedSkills.Count; i++)
+        {
+            if (ownedSkills[i].skillData == skill)
+            {
+                return ownedSkills[i];
+            }
+        }
+
+        return null;
+    }
 }

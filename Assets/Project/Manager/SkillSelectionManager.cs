@@ -7,6 +7,7 @@ public class SkillSelectionManager : MonoBehaviour
     [SerializeField] private List<SkillData> allSkills = new List<SkillData>(); //전체 스킬 데이터 목록
     [SerializeField] private PlayerSkillInventory inventory; //플레이어 보유 스킬 정보
     [SerializeField] private SkillCardUI[] skillCards;
+    [SerializeField] private BallManager ballManager;
     private List<SkillData> currentOptions = new List<SkillData>(); //현재 선택지로 표시될 스킬 목록
 
     private void Awake()
@@ -79,11 +80,23 @@ public class SkillSelectionManager : MonoBehaviour
         return result;
     }
 
-    public void SelectSkill(int index)  //선택한 스킬을 획득 또는 레벨업
+    public void SelectSkill(int index) //선택한 스킬을 획득 또는 레벨업
     {
         if (index < 0 || index >= currentOptions.Count) return;
 
-        inventory.AddOrLevelUpSkill(currentOptions[index]);
+        SkillData selectedSkill = currentOptions[index];
+
+        inventory.AddOrLevelUpSkill(selectedSkill);
+
+        if (selectedSkill.skillType == SkillType.Active)
+        {
+            ActiveSkillData activeSkill = selectedSkill as ActiveSkillData;
+
+            if (activeSkill != null)
+            {
+                ballManager.AddBall(activeSkill.linkedBallData);
+            }
+        }
 
         selectionPanel.SetActive(false);
         Time.timeScale = 1f;
