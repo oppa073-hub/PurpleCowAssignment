@@ -19,7 +19,7 @@ public class MonsterHealth : MonoBehaviour
     {
         monsterData = data;
         currentHp = monsterData.maxHp;
-
+        isDead = false;
         MonsterMover mover = GetComponent<MonsterMover>();
         if (mover != null) mover.Initialize(data);
     }
@@ -35,7 +35,7 @@ public class MonsterHealth : MonoBehaviour
             isDead = true;
             ApplyLastMatchExplosion();
             OnDead?.Invoke(this);
-            Destroy(gameObject);  //임시
+            ObjectPoolManager.Instance.ReturnObject(gameObject);
         }
     }
 

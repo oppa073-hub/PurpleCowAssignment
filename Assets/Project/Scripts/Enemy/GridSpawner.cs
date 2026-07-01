@@ -46,7 +46,8 @@ public class GridSpawner : MonoBehaviour
 
         MonsterData data = monsterPool[Random.Range(0, monsterPool.Count)];
 
-        MonsterHealth monster = Instantiate(data.monsterPrefab, spawnPos, Quaternion.identity);
+        GameObject monsterObj = ObjectPoolManager.Instance.GetObject(data.monsterPrefab.gameObject, spawnPos, Quaternion.identity);
+        MonsterHealth monster = monsterObj.GetComponent<MonsterHealth>();
 
         monster.Initialize(data);
 

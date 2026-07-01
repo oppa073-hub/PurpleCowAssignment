@@ -26,7 +26,8 @@ public class BallManager : MonoBehaviour
 
         nextBallIndex++;
 
-        BallController2D ball = Instantiate(ballData.ballPrefab, firePoint.position, Quaternion.identity);
+        GameObject ballObj = ObjectPoolManager.Instance.GetObject(ballData.ballPrefab.gameObject, firePoint.position, Quaternion.identity);
+        BallController2D ball = ballObj.GetComponent<BallController2D>();
 
         int damage = CalculateFinalDamage(ballData);
         float wallBonusRate = GetMagicMirrorBonusRate();
@@ -57,7 +58,7 @@ public class BallManager : MonoBehaviour
     private void HandleBallRecovered(BallController2D ball) //회수된 볼 제거 후 새로운 볼 발사
     {
         ball.OnRecovered -= HandleBallRecovered;
-        Destroy(ball.gameObject); //임시
+        ObjectPoolManager.Instance.ReturnObject(ball.gameObject);
         StartCoroutine(FireOneBall());
     }
 

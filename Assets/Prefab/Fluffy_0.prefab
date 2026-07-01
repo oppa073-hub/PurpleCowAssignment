@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 802573907007153858}
   - component: {fileID: 563965415152999687}
   - component: {fileID: -8016127751645014027}
+  - component: {fileID: -6956988942359658441}
   m_Layer: 7
   m_Name: Fluffy_0
   m_TagString: Enemy
@@ -183,6 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
   monsterData: {fileID: 11400000, guid: 152ec81aa1b97754e848475da977b95e, type: 2}
+  explosionRadius: 1.5
 --- !u!114 &802573907007153858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,3 +221,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d10a505f2ff83c642a7e7cd4797146a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Freezable
+--- !u!114 &-6956988942359658441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7061124065469252510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b63c79c31339aa4098cd71f1576f1a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PooledObject

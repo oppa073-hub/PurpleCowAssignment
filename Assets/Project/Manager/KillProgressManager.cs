@@ -15,6 +15,9 @@ public class KillProgressManager : MonoBehaviour
 
         currentKillCount++;
 
+        if (milestoneIndex >= killMilestones.Length)
+            return;
+
         if (currentKillCount >= killMilestones[milestoneIndex])
         {
             milestoneIndex++;

@@ -29,6 +29,7 @@ public class BallController2D : MonoBehaviour
         nextHitDamageMultiplier = 1f;
         criticalChance = critChance;
         criticalDamageRate = critDamageRate;
+        isMoving = false;
     }
     private void Update()
     {
