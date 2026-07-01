@@ -30,4 +30,11 @@ public class BallData : ScriptableObject
     public float freezeDuration;
     public float slowRate;
     public float extraDamageRate;
+
+    [Header("클러스터볼")]
+    public bool isCluster;
+    public BallData clusterBallData;
+    public float clusterChance;
+    public int clusterDamage;
+    public float clusterAngle = 25f;
 }

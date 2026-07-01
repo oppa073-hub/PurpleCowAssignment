@@ -62,6 +62,21 @@ public class BallController2D : MonoBehaviour
             }
         }
     }
+    private void SpawnClusterBall()
+    {
+        if (ballData.clusterBallData == null) return;
+
+        Vector2 currentDirection = rb.linearVelocity.normalized;
+        float randomAngle = UnityEngine.Random.Range(-ballData.clusterAngle, ballData.clusterAngle);
+        Vector2 splitDirection = Quaternion.Euler(0f, 0f, randomAngle) * currentDirection;
+
+        BallController2D clusterBall = Instantiate(ballData.clusterBallData.ballPrefab, transform.position, Quaternion.identity);
+
+        clusterBall.Initialize(ballData.clusterBallData, ballData.clusterDamage, wallHitDamageBonusRate, criticalChance, criticalDamageRate);
+
+        clusterBall.Launch(splitDirection);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("RecoverZone")) return;
@@ -119,6 +134,13 @@ public class BallController2D : MonoBehaviour
                     Freezable freezable = collision.collider.GetComponent<Freezable>();
 
                     if (freezable != null) freezable.ApplyFreeze(ballData.freezeDuration, ballData.slowRate);
+                }
+            }
+            if (ballData.isCluster)
+            {
+                if (UnityEngine.Random.value < ballData.clusterChance)
+                {
+                    SpawnClusterBall();
                 }
             }
         }
