@@ -30,6 +30,7 @@ public class MonsterHealth : MonoBehaviour
         if (isDead) return;
 
         currentHp -= damage;
+        DamageTextManager.Instance.ShowDamage(damage, transform.position);
 
         if (currentHp <= 0)
         {
