@@ -20,6 +20,12 @@ public class MonsterSpawnManager : MonoBehaviour
     {
         while (true)
         {
+            if (GameManager.Instance.CurrentState != GameState.Playing)
+            {
+                yield return null;
+                continue;
+            }
+
             int spawnCount = Random.Range(minSpawnCount, maxSpawnCount + 1);
 
             List<MonsterHealth> monsters = gridSpawner.SpawnRandomMonsters(spawnCount);

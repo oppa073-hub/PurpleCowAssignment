@@ -13,12 +13,17 @@ public class KillProgressManager : MonoBehaviour
 
         currentKillCount++;
 
-        if (milestoneIndex >= killMilestones.Length) return;
-
         if (currentKillCount >= killMilestones[milestoneIndex])
         {
-            skillSelectionManager.OpenSelection();
             milestoneIndex++;
+
+            if (milestoneIndex >= killMilestones.Length)
+            {
+                GameManager.Instance.ChangeState(GameState.GameClear);
+                return;
+            }
+
+            skillSelectionManager.OpenSelection();
         }
     }
 }

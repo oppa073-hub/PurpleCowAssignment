@@ -20,6 +20,7 @@ public class BallManager : MonoBehaviour
     private void FireOneBallImmediate() //현재 장착된 볼 데이터를 기반으로 볼 생성 및 발사
     {
         if (equippedBalls.Count <= 0) return;
+        if (GameManager.Instance.CurrentState != GameState.Playing) return;
 
         BallData ballData = equippedBalls[nextBallIndex % equippedBalls.Count];
 
@@ -48,6 +49,8 @@ public class BallManager : MonoBehaviour
     private IEnumerator FireOneBall() //회수된 볼을 일정 시간 후 다시 발사
     {
         yield return new WaitForSeconds(fireInterval);
+
+        if (GameManager.Instance.CurrentState != GameState.Playing) yield break;
         FireOneBallImmediate();
     }
 

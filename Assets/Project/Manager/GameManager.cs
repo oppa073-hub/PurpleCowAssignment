@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 public enum GameState
 {
     Playing,
@@ -12,6 +14,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     public GameState CurrentState { get; private set; }
+
+    [SerializeField] private GameObject resultPanel;
+    [SerializeField] private TMP_Text resultText;
 
     private void Awake()
     {
@@ -45,11 +50,12 @@ public class GameManager : MonoBehaviour
 
             case GameState.GameClear:
                 PauseGame();
+                ShowResult("Stage Clear");
                 break;
 
             case GameState.GameOver:
-                Debug.Log("게임 오버");
                 PauseGame();
+                ShowResult("Game Over");
                 break;
         }
     }
@@ -62,5 +68,15 @@ public class GameManager : MonoBehaviour
     private void ResumeGame()
     {
         Time.timeScale = 1f;
+    }
+    private void ShowResult(string message)
+    {
+        resultText.text = message;
+        resultPanel.SetActive(true);
+    }
+    public void Retry()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
