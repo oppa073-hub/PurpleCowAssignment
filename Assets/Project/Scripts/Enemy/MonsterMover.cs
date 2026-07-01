@@ -2,18 +2,30 @@
 using System.Collections;
 public class MonsterMover : MonoBehaviour
 {
-    private float moveSpeed;
     private float moveDelayTime = 1f;
+    private float originMoveSpeed;  //아이스볼
+    private float currentMoveSpeed;
 
     public void Initialize(MonsterData data)
     {
-        moveSpeed = data.moveSpeed;
+        currentMoveSpeed = data.moveSpeed;
+        originMoveSpeed = data.moveSpeed;
     }
     void Update()
     {
         if (Time.time < moveDelayTime) return;
-        transform.Translate(Vector2.down * moveSpeed * Time.deltaTime);
+        transform.Translate(Vector2.down * currentMoveSpeed * Time.deltaTime);
     }
+    public void ApplySlow(float slowRate)
+    {
+        currentMoveSpeed = originMoveSpeed * (1f - slowRate);
+    }
+
+    public void ResetSpeed()
+    {
+        currentMoveSpeed = originMoveSpeed;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("FailZone")) return;

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6913008726044546527}
   - component: {fileID: 802573907007153858}
   - component: {fileID: 563965415152999687}
+  - component: {fileID: -8016127751645014027}
   m_Layer: 7
   m_Name: Fluffy_0
   m_TagString: Enemy
@@ -206,3 +207,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b19cf4cc89fbfa4d8cec83cb01c6da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Burnable
+--- !u!114 &-8016127751645014027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7061124065469252510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10a505f2ff83c642a7e7cd4797146a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Freezable

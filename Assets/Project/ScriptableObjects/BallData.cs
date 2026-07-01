@@ -23,4 +23,11 @@ public class BallData : ScriptableObject
     public int burnDamagePerSecond;
     public int maxBurnStack;
     public float burnDuration;
+
+    [Header("아이스볼")]
+    public bool isIce;
+    public float freezeChance;
+    public float freezeDuration;
+    public float slowRate;
+    public float extraDamageRate;
 }

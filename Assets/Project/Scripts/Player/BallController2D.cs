@@ -112,6 +112,15 @@ public class BallController2D : MonoBehaviour
                     burnable.ApplyBurn(ballData.burnDamagePerSecond, ballData.maxBurnStack, ballData.burnDuration);
                 }
             }
+            if (ballData.isIce)
+            {
+                if (UnityEngine.Random.value < ballData.freezeChance)
+                {
+                    Freezable freezable = collision.collider.GetComponent<Freezable>();
+
+                    if (freezable != null) freezable.ApplyFreeze(ballData.freezeDuration, ballData.slowRate);
+                }
+            }
         }
     }
 }
