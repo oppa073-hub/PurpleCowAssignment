@@ -4,8 +4,10 @@ public class KillProgressManager : MonoBehaviour
 {
     [SerializeField] private int[] killMilestones;
     [SerializeField] private SkillSelectionManager skillSelectionManager;
+    [SerializeField] private MonsterSpawnManager monsterSpawnManager;
     private int currentKillCount;
     private int milestoneIndex;
+    private bool isFinalConditionReached;
 
     public void HandleMonsterDead(MonsterHealth monster)
     {
@@ -19,11 +21,22 @@ public class KillProgressManager : MonoBehaviour
 
             if (milestoneIndex >= killMilestones.Length)
             {
-                GameManager.Instance.ChangeState(GameState.GameClear);
+                isFinalConditionReached = true;
+                monsterSpawnManager.StopSpawn();
+                CheckStageClear();
                 return;
             }
 
             skillSelectionManager.OpenSelection();
+        }
+    }
+    public void CheckStageClear()
+    {
+        if (!isFinalConditionReached) return;
+
+        if (monsterSpawnManager.ActiveMonsterCount <= 0)
+        {
+            GameManager.Instance.ChangeState(GameState.GameClear);
         }
     }
 }

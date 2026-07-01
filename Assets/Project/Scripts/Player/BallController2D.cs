@@ -4,6 +4,7 @@ public class BallController2D : MonoBehaviour
 {
     [SerializeField] private BallData ballData;
 
+    private Collider2D ballCollider;
     private Rigidbody2D rb;
     private bool isMoving;
     private int currentDamage;
@@ -18,6 +19,7 @@ public class BallController2D : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        ballCollider = GetComponent<Collider2D>();
     }
     public void Initialize(BallData data, int damage, float wallBonusRate, float critChance, float critDamageRate)
     {
@@ -46,7 +48,20 @@ public class BallController2D : MonoBehaviour
         isMoving = true;
         rb.linearVelocity = direction.normalized * ballData.speed;
     }
+    private void HitSameRowEnemies(float hitY)  //레이저볼이 같은행 레이저 발사
+    {
+        MonsterHealth[] monsters = FindObjectsByType<MonsterHealth>(FindObjectsSortMode.None);
 
+        for (int i = 0; i < monsters.Length; i++)
+        {
+            float distanceY = Mathf.Abs(monsters[i].transform.position.y - hitY);
+
+            if (distanceY <= ballData.laserRowRange)
+            {
+                monsters[i].TakeDamage(ballData.laserDamage);
+            }
+        }
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("RecoverZone")) return;
@@ -78,7 +93,16 @@ public class BallController2D : MonoBehaviour
                 monster.TakeDamage(finalDamage);
             }
 
-            nextHitDamageMultiplier = 1f;
+            nextHitDamageMultiplier = 1f; 
+            
+            if (ballData.isPiercing)
+            {
+                Physics2D.IgnoreCollision(ballCollider, collision.collider, true);
+            }
+            if (ballData.isLaser)
+            {
+                HitSameRowEnemies(collision.transform.position.y);
+            }
         }
     }
 }
