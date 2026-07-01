@@ -6,6 +6,12 @@ public class BallController2D : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool isMoving;
+    private int currentDamage;
+
+    private float wallHitDamageBonusRate;
+    private float nextHitDamageMultiplier = 1f; //패시브용
+    private float criticalChance;
+    private float criticalDamageRate;
 
     public event Action<BallController2D> OnRecovered;
 
@@ -13,9 +19,14 @@ public class BallController2D : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-    public void Initialize(BallData data)
+    public void Initialize(BallData data, int damage, float wallBonusRate, float critChance, float critDamageRate)
     {
         ballData = data;
+        currentDamage = damage;
+        wallHitDamageBonusRate = wallBonusRate;
+        nextHitDamageMultiplier = 1f;
+        criticalChance = critChance;
+        criticalDamageRate = critDamageRate;
     }
     private void Update()
     {
@@ -46,11 +57,28 @@ public class BallController2D : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.collider.CompareTag("Enemy")) return;
+        if (collision.collider.CompareTag("Wall"))
+        {
+            nextHitDamageMultiplier += wallHitDamageBonusRate; return;
+        }
 
-        MonsterHealth monster = collision.collider.GetComponent<MonsterHealth>();
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            MonsterHealth monster = collision.collider.GetComponent<MonsterHealth>();
 
-        if (monster != null)
-            monster.TakeDamage(ballData.damage);
+            if (monster != null)
+            {
+                int finalDamage = Mathf.RoundToInt(currentDamage * nextHitDamageMultiplier);
+                
+                if (UnityEngine.Random.value < criticalChance) //크리티컬 적용
+                {
+                    finalDamage = Mathf.RoundToInt(finalDamage * (1f + criticalDamageRate));
+                }
+
+                monster.TakeDamage(finalDamage);
+            }
+
+            nextHitDamageMultiplier = 1f;
+        }
     }
 }

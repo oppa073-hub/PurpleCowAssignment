@@ -6,6 +6,7 @@ public class MonsterHealth : MonoBehaviour
     [SerializeField] private MonsterData monsterData;
 
     private int currentHp;
+    private bool isDead;
 
     public event Action<MonsterHealth> OnDead;
 
@@ -24,10 +25,13 @@ public class MonsterHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (isDead) return;
+
         currentHp -= damage;
 
         if (currentHp <= 0)
         {
+            isDead = true;
             OnDead?.Invoke(this);
             Destroy(gameObject);  //임시
         }

@@ -22,13 +22,17 @@ public class BallManager : MonoBehaviour
         if (equippedBalls.Count <= 0) return;
 
         BallData ballData = equippedBalls[nextBallIndex % equippedBalls.Count];
+
         nextBallIndex++;
 
         BallController2D ball = Instantiate(ballData.ballPrefab, firePoint.position, Quaternion.identity);
 
         int damage = CalculateFinalDamage(ballData);
-        ball.Initialize(ballData, damage);
+        float wallBonusRate = GetMagicMirrorBonusRate();
+        float critChance = ballData.criticalChance + GetPassiveCriticalChanceBonus();
+        ball.Initialize(ballData, damage, wallBonusRate, critChance, ballData.criticalDamageRate);
         ball.OnRecovered += HandleBallRecovered;
+
         ball.Launch(playerShooter.AimDirection);
     }
 
@@ -101,6 +105,41 @@ public class BallManager : MonoBehaviour
         }
 
         return ballData.damage;
+    }
+    private float GetMagicMirrorBonusRate()  //패시브용
+    {
+        for (int i = 0; i < inventory.OwnedSkills.Count; i++)
+        {
+            PassiveSkillData passiveSkill = inventory.OwnedSkills[i].skillData as PassiveSkillData;
+
+            if (passiveSkill == null) continue;
+            if (passiveSkill.passiveType != PassiveType.MagicMirror) continue;
+
+            int level = inventory.OwnedSkills[i].currentLevel;
+            return passiveSkill.levels[level - 1].value;
+        }
+
+        return 0f;
+    }
+
+    private float GetPassiveCriticalChanceBonus()  //치명타 확률 적용
+    {
+        float bonus = 0f;
+
+        for (int i = 0; i < inventory.OwnedSkills.Count; i++)
+        {
+            PassiveSkillData passiveSkill = inventory.OwnedSkills[i].skillData as PassiveSkillData;
+
+            if (passiveSkill == null) continue;
+
+            if (passiveSkill.passiveType == PassiveType.RubyDagger || passiveSkill.passiveType == PassiveType.EmeraldDagger)
+            {
+                int level = inventory.OwnedSkills[i].currentLevel;
+                bonus += passiveSkill.levels[level - 1].value;
+            }
+        }
+
+        return bonus;
     }
 
     public void AddBall(BallData ballData)
