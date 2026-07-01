@@ -36,7 +36,7 @@ public class SkillSelectionManager : MonoBehaviour
         }
         selectionPanel.SetActive(true);
 
-        Time.timeScale = 0f; // 선택 중 게임 정지
+        GameManager.Instance.ChangeState(GameState.SkillSelection); // 선택 중 게임 정지
     }
     private List<SkillData> GetRandomOptions() //선택 가능한 스킬 중 랜덤 3개 추출
     {
@@ -99,6 +99,6 @@ public class SkillSelectionManager : MonoBehaviour
         }
 
         selectionPanel.SetActive(false);
-        Time.timeScale = 1f;
+        GameManager.Instance.ChangeState(GameState.Playing);
     }
 }
