@@ -66,4 +66,17 @@ public class PlayerSkillInventory : MonoBehaviour
 
         return null;
     }
+    public PassiveSkillData GetPassiveSkill(PassiveType passiveType)
+    {
+        for (int i = 0; i < ownedSkills.Count; i++)
+        {
+            PassiveSkillData passiveSkill = ownedSkills[i].skillData as PassiveSkillData;
+
+            if (passiveSkill == null) continue;
+
+            if (passiveSkill.passiveType == passiveType) return passiveSkill;
+        }
+
+        return null;
+    }
 }
