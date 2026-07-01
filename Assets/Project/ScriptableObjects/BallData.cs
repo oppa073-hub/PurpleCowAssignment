@@ -18,4 +18,9 @@ public class BallData : ScriptableObject
     public int laserDamage;
     public float laserRowRange = 0.5f;
 
+    [Header("파이어볼")]
+    public bool isFire;
+    public int burnDamagePerSecond;
+    public int maxBurnStack;
+    public float burnDuration;
 }

@@ -103,6 +103,15 @@ public class BallController2D : MonoBehaviour
             {
                 HitSameRowEnemies(collision.transform.position.y);
             }
+            if (ballData.isFire)
+            {
+                Burnable burnable = collision.collider.GetComponent<Burnable>();
+
+                if (burnable != null)
+                {
+                    burnable.ApplyBurn(ballData.burnDamagePerSecond, ballData.maxBurnStack, ballData.burnDuration);
+                }
+            }
         }
     }
 }
