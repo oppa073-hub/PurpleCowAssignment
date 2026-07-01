@@ -8,11 +8,13 @@ public class SkillSelectionManager : MonoBehaviour
     [SerializeField] private PlayerSkillInventory inventory; //플레이어 보유 스킬 정보
     [SerializeField] private SkillCardUI[] skillCards;
     [SerializeField] private BallManager ballManager;
+    [SerializeField] private SkillInventoryUI skillInventoryUI;
     private List<SkillData> currentOptions = new List<SkillData>(); //현재 선택지로 표시될 스킬 목록
 
     private void Awake()
     {
         selectionPanel.SetActive(false);
+        skillInventoryUI.gameObject.SetActive(false);
     }
 
     public void OpenSelection() //랜덤 스킬 선택지를 생성하고 UI 표시
@@ -35,7 +37,7 @@ public class SkillSelectionManager : MonoBehaviour
             }
         }
         selectionPanel.SetActive(true);
-
+        skillInventoryUI.gameObject.SetActive(true);
         GameManager.Instance.ChangeState(GameState.SkillSelection); // 선택 중 게임 정지
     }
     private List<SkillData> GetRandomOptions() //선택 가능한 스킬 중 랜덤 3개 추출
@@ -97,7 +99,8 @@ public class SkillSelectionManager : MonoBehaviour
                 ballManager.AddBall(activeSkill.linkedBallData);
             }
         }
-
+        skillInventoryUI.Refresh();
+        skillInventoryUI.gameObject.SetActive(false);
         selectionPanel.SetActive(false);
         GameManager.Instance.ChangeState(GameState.Playing);
     }
