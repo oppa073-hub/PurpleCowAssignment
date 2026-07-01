@@ -20,6 +20,7 @@ public class MonsterHealth : MonoBehaviour
         monsterData = data;
         currentHp = monsterData.maxHp;
         isDead = false;
+        OnDead = null;
         MonsterMover mover = GetComponent<MonsterMover>();
         if (mover != null) mover.Initialize(data);
     }
