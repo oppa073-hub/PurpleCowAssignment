@@ -5,34 +5,29 @@ using UnityEngine;
 
 public class BallManager : MonoBehaviour
 {
-    [SerializeField] private List<BallData> equippedBalls = new List<BallData>() ;
+    [SerializeField] private BallData normalBallData;
+    [SerializeField] private List<BallData> equippedBalls = new List<BallData>();
+    [SerializeField] private int normalBallCount = 5;
     [SerializeField] private Transform firePoint;
     [SerializeField] private PlayerShooter2D playerShooter;
-    [SerializeField] private int ballCount;
     [SerializeField] private float fireInterval = 0.08f;
     [SerializeField] private PlayerSkillInventory inventory;
-    private int nextBallIndex;
 
     private void Start()
     {
         StartCoroutine(FireInitialBalls());
     }
-    private void FireOneBallImmediate() //현재 장착된 볼 데이터를 기반으로 볼 생성 및 발사
+    private void FireOneBallImmediate(BallData ballData) //현재 장착된 볼 데이터를 기반으로 볼 생성 및 발사
     {
-        if (equippedBalls.Count <= 0) return;
         if (GameManager.Instance.CurrentState != GameState.Playing) return;
-
-        BallData ballData = equippedBalls[nextBallIndex % equippedBalls.Count];
-
-        nextBallIndex++;
 
         GameObject ballObj = ObjectPoolManager.Instance.GetObject(ballData.ballPrefab.gameObject, firePoint.position, Quaternion.identity);
         BallController2D ball = ballObj.GetComponent<BallController2D>();
 
-        int damage = CalculateFinalDamage(ballData);
+        SkillLevelData levelData = GetSkillLevelData(ballData);
         float wallBonusRate = GetMagicMirrorBonusRate();
         float critChance = ballData.criticalChance + GetPassiveCriticalChanceBonus();
-        ball.Initialize(ballData, damage, wallBonusRate, critChance, ballData.criticalDamageRate);
+        ball.Initialize(ballData, levelData, wallBonusRate, critChance, ballData.criticalDamageRate);
         ball.OnRecovered += HandleBallRecovered;
 
         ball.Launch(playerShooter.AimDirection);
@@ -40,56 +35,85 @@ public class BallManager : MonoBehaviour
 
     private IEnumerator FireInitialBalls()  //시작 시 여러 개의 볼을 순차적으로 발사
     {
-        for (int i = 0; i < ballCount; i++)
+        // 기본공 5개
+        for (int i = 0; i < normalBallCount; i++)
         {
-            FireOneBallImmediate();
+            FireOneBallImmediate(normalBallData);
+            yield return new WaitForSeconds(fireInterval);
+        }
+
+        // 스킬공
+        for (int i = 0; i < equippedBalls.Count; i++)
+        {
+            FireOneBallImmediate(equippedBalls[i]);
             yield return new WaitForSeconds(fireInterval);
         }
     }
 
-    private IEnumerator FireOneBall() //회수된 볼을 일정 시간 후 다시 발사
+    private IEnumerator FireOneBall(BallData ballData) //회수된 볼을 일정 시간 후 다시 발사
     {
         yield return new WaitForSeconds(fireInterval);
 
         if (GameManager.Instance.CurrentState != GameState.Playing) yield break;
-        FireOneBallImmediate();
+        FireOneBallImmediate(ballData);
     }
 
     private void HandleBallRecovered(BallController2D ball) //회수된 볼 제거 후 새로운 볼 발사
     {
         ball.OnRecovered -= HandleBallRecovered;
+        BallData recoveredBall = ball.BallData;
         ObjectPoolManager.Instance.ReturnObject(ball.gameObject);
-        StartCoroutine(FireOneBall());
+        StartCoroutine(FireOneBall(recoveredBall));
     }
 
-    private int CalculateFinalDamage(BallData ballData)
-    {
-        int damage = GetBallDamage(ballData);
-        damage = ApplyPassiveDamageBonus(damage);
-
-        return damage;
-    }
-
-    private int ApplyPassiveDamageBonus(int damage)  //패시브 적용
+    //private int CalculateFinalDamage(BallData ballData)
+    //{
+    //    int damage = GetBallDamage(ballData);
+    //    damage = ApplyPassiveDamageBonus(damage);
+    //
+    //    return damage;
+    //}
+    private SkillLevelData GetSkillLevelData(BallData ballData)
     {
         for (int i = 0; i < inventory.OwnedSkills.Count; i++)
         {
-            SkillData skill = inventory.OwnedSkills[i].skillData;
+            ActiveSkillData active = inventory.OwnedSkills[i].skillData as ActiveSkillData;
 
-            PassiveSkillData passiveSkill = skill as PassiveSkillData;
+            if (active == null)  continue;
 
-            if (passiveSkill == null) continue;
+            if (active.linkedBallData != ballData) continue;
 
-            if (passiveSkill.passiveType == PassiveType.WarmHeart)
-            {
-                int level = inventory.OwnedSkills[i].currentLevel;
-                float bonusRate = passiveSkill.levels[level - 1].value;
+            int level = inventory.OwnedSkills[i].currentLevel;
 
-                damage = Mathf.RoundToInt(damage * (1f + bonusRate));
-            }
+            return active.levels[level - 1];
         }
-        return damage;
+
+        return new SkillLevelData()
+        {
+            damage = ballData.damage
+        };
     }
+
+   // private int ApplyPassiveDamageBonus(int damage)  //패시브 적용
+   // {
+   //     for (int i = 0; i < inventory.OwnedSkills.Count; i++)
+   //     {
+   //         SkillData skill = inventory.OwnedSkills[i].skillData;
+   //
+   //         PassiveSkillData passiveSkill = skill as PassiveSkillData;
+   //
+   //         if (passiveSkill == null) continue;
+   //
+   //         if (passiveSkill.passiveType == PassiveType.WarmHeart)
+   //         {
+   //             int level = inventory.OwnedSkills[i].currentLevel;
+   //             float bonusRate = passiveSkill.levels[level - 1].value;
+   //
+   //             damage = Mathf.RoundToInt(damage * (1f + bonusRate));
+   //         }
+   //     }
+   //     return damage;
+   // }
 
     private int GetBallDamage(BallData ballData)  //데미지 계산
     {
@@ -156,5 +180,6 @@ public class BallManager : MonoBehaviour
         }
 
         equippedBalls.Add(ballData);
+        StartCoroutine(FireOneBall(ballData)); //새로운 공 한개만 발사
     }
 }

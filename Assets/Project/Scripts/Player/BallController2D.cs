@@ -9,6 +9,11 @@ public class BallController2D : MonoBehaviour
     private Rigidbody2D rb;
     private bool isMoving;
     private int currentDamage;
+    private float skillChance;
+    private float skillDuration;
+    private float skillValue;
+    private int skillSubDamage;
+    private int skillStackCount;
 
     private float wallHitDamageBonusRate;
     private float nextHitDamageMultiplier = 1f; //패시브용
@@ -18,6 +23,8 @@ public class BallController2D : MonoBehaviour
 
     private Vector2 lastMoveDirection;
 
+    public BallData BallData => ballData;
+
     public event Action<BallController2D> OnRecovered;
 
     private void Awake()
@@ -25,10 +32,15 @@ public class BallController2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ballCollider = GetComponent<Collider2D>();
     }
-    public void Initialize(BallData data, int damage, float wallBonusRate, float critChance, float critDamageRate, bool temporaryBall = false)
+    public void Initialize(BallData data, SkillLevelData levelData, float wallBonusRate, float critChance, float critDamageRate, bool temporaryBall = false)
     {
         ballData = data;
-        currentDamage = damage;
+        currentDamage = levelData.damage;
+        skillChance = levelData.chance;
+        skillDuration = levelData.duration;
+        skillValue = levelData.value;
+        skillSubDamage = levelData.subDamage;
+        skillStackCount = levelData.stackCount;
         wallHitDamageBonusRate = wallBonusRate;
         nextHitDamageMultiplier = 1f;
         criticalChance = critChance;
@@ -63,7 +75,7 @@ public class BallController2D : MonoBehaviour
 
             if (distanceY <= ballData.laserRowRange)
             {
-                monsters[i].TakeDamage(ballData.laserDamage);
+                monsters[i].TakeDamage(skillSubDamage);
             }
         }
     }
@@ -75,9 +87,12 @@ public class BallController2D : MonoBehaviour
         float randomAngle = UnityEngine.Random.Range(-ballData.clusterAngle, ballData.clusterAngle);
         Vector2 splitDirection = Quaternion.Euler(0f, 0f, randomAngle) * currentDirection;
 
+        SkillLevelData levelData = new SkillLevelData();
+        levelData.damage = skillSubDamage;
+
         BallController2D clusterBall = Instantiate(ballData.clusterBallData.ballPrefab, transform.position, Quaternion.identity);
 
-        clusterBall.Initialize(ballData.clusterBallData, ballData.clusterDamage, wallHitDamageBonusRate, criticalChance, criticalDamageRate, true);
+        clusterBall.Initialize(ballData.clusterBallData, levelData, wallHitDamageBonusRate, criticalChance, criticalDamageRate, true);
 
         clusterBall.Launch(splitDirection);
     }
@@ -144,22 +159,22 @@ public class BallController2D : MonoBehaviour
 
                 if (burnable != null)
                 {
-                    burnable.ApplyBurn(ballData.burnDamagePerSecond, ballData.maxBurnStack, ballData.burnDuration);
+                    burnable.ApplyBurn(skillSubDamage, skillStackCount, skillDuration);
                 }
             }
             if (ballData.isIce)
             {
                 Debug.Log("아이스볼 효과 실행");
-                if (UnityEngine.Random.value < ballData.freezeChance)
+                if (UnityEngine.Random.value < skillChance)
                 {
                     Freezable freezable = collision.collider.GetComponent<Freezable>();
 
-                    if (freezable != null) freezable.ApplyFreeze(ballData.freezeDuration, ballData.slowRate);
+                    if (freezable != null) freezable.ApplyFreeze(skillDuration, skillValue);
                 }
             }
             if (ballData.isCluster)
             {
-                if (UnityEngine.Random.value < ballData.clusterChance)
+                if (UnityEngine.Random.value < skillChance)
                 {
                     SpawnClusterBall();
                 }

@@ -6,7 +6,6 @@ public class SkillCardUI : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TMP_Text nameText;
-    [SerializeField] private TMP_Text descriptionText;
 
     [SerializeField] private Image[] levelIcons;
     [SerializeField] private Sprite emptyLevelIcon;
@@ -18,7 +17,6 @@ public class SkillCardUI : MonoBehaviour
         nameText.text = skill.skillName;
 
         SkillLevelData levelData = skill.levels[targetLevel - 1];
-        descriptionText.text = levelData.description;
 
         for (int i = 0; i < levelIcons.Length; i++)
         {

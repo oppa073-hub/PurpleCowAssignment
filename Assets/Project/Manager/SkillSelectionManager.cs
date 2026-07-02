@@ -93,11 +93,13 @@ public class SkillSelectionManager : MonoBehaviour
     {
         if (index < 0 || index >= currentOptions.Count) return;
 
-        SkillData selectedSkill = currentOptions[index];
 
+
+        SkillData selectedSkill = currentOptions[index];
+        bool alreadyOwned = inventory.HasSkill(selectedSkill);
         inventory.AddOrLevelUpSkill(selectedSkill);
 
-        if (selectedSkill.skillType == SkillType.Active)
+        if (!alreadyOwned && selectedSkill.skillType == SkillType.Active)
         {
             ActiveSkillData activeSkill = selectedSkill as ActiveSkillData;
 
