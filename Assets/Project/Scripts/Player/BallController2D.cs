@@ -14,6 +14,7 @@ public class BallController2D : MonoBehaviour
     private float nextHitDamageMultiplier = 1f; //패시브용
     private float criticalChance;
     private float criticalDamageRate;
+    private bool isTemporaryBall;  //클러스트볼 용
 
     private Vector2 lastMoveDirection;
 
@@ -24,7 +25,7 @@ public class BallController2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ballCollider = GetComponent<Collider2D>();
     }
-    public void Initialize(BallData data, int damage, float wallBonusRate, float critChance, float critDamageRate)
+    public void Initialize(BallData data, int damage, float wallBonusRate, float critChance, float critDamageRate, bool temporaryBall = false)
     {
         ballData = data;
         currentDamage = damage;
@@ -33,6 +34,7 @@ public class BallController2D : MonoBehaviour
         criticalChance = critChance;
         criticalDamageRate = critDamageRate;
         isMoving = false;
+        isTemporaryBall = temporaryBall;
     }
     private void Update()
     {
@@ -75,7 +77,7 @@ public class BallController2D : MonoBehaviour
 
         BallController2D clusterBall = Instantiate(ballData.clusterBallData.ballPrefab, transform.position, Quaternion.identity);
 
-        clusterBall.Initialize(ballData.clusterBallData, ballData.clusterDamage, wallHitDamageBonusRate, criticalChance, criticalDamageRate);
+        clusterBall.Initialize(ballData.clusterBallData, ballData.clusterDamage, wallHitDamageBonusRate, criticalChance, criticalDamageRate, true);
 
         clusterBall.Launch(splitDirection);
     }
@@ -86,6 +88,13 @@ public class BallController2D : MonoBehaviour
         {
             isMoving = false;
             rb.linearVelocity = Vector2.zero;
+
+            if (isTemporaryBall)
+            {
+                ObjectPoolManager.Instance.ReturnObject(gameObject);
+                return;
+            }
+
             OnRecovered?.Invoke(this);
         }
         if (other.CompareTag("Enemy"))
