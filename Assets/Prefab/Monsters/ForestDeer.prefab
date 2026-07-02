@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: -8016127751645014027}
   - component: {fileID: -6956988942359658441}
   m_Layer: 7
-  m_Name: Fluffy_0
+  m_Name: ForestDeer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -393,7 +393,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2842281454074129482, guid: 7162e8c68a4f8fd4893c5f32e36d2334, type: 3}
+  m_Sprite: {fileID: -8917190514560807785, guid: f5222aaa5f8f16b41bd215ec30d0f127, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -441,13 +441,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.95, y: 0.99}
+    oldSize: {x: 0.96, y: 1.98}
     newSize: {x: 0.95, y: 0.99}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.95, y: 0.99}
+  m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
 --- !u!50 &1271990633726218043
 Rigidbody2D:
@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2e49de610eaf947917f3b85dd100cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHealth
-  monsterData: {fileID: 11400000, guid: 152ec81aa1b97754e848475da977b95e, type: 2}
+  monsterData: {fileID: 11400000, guid: fe204dc5a80abb841ac2b4e9d7ffba48, type: 2}
   explosionRadius: 1.5
 --- !u!114 &802573907007153858
 MonoBehaviour:

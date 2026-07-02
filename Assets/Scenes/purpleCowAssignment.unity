@@ -250,7 +250,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -3.282033}
+  m_Offset: {x: 0, y: -4.305356}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -260,7 +260,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 11.001852}
+  m_Size: {x: 1, y: 13.048498}
   m_EdgeRadius: 0
 --- !u!1 &33714936
 GameObject:
@@ -4535,6 +4535,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridSpawner
   monsterPool:
   - {fileID: 11400000, guid: 152ec81aa1b97754e848475da977b95e, type: 2}
+  - {fileID: 11400000, guid: fe204dc5a80abb841ac2b4e9d7ffba48, type: 2}
+  - {fileID: 11400000, guid: d778242da45f04a4394e8953e4dc9e96, type: 2}
+  - {fileID: 11400000, guid: ed84efbe18566c2438c0aefe81f26e45, type: 2}
   columns: 9
   rows: 3
   startPosition: {x: -3.9, y: 5.2}
@@ -5545,7 +5548,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -3.282033}
+  m_Offset: {x: 0, y: -4.033536}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5555,7 +5558,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 11.001852}
+  m_Size: {x: 1, y: 12.504858}
   m_EdgeRadius: 0
 --- !u!1 &1577363733
 GameObject:
@@ -6908,7 +6911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0670449efb5742749a4318b4a021a7d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KillProgressManager
-  killMilestones: 050000000a0000000f00000014000000
+  killMilestones: 050000000a00000010000000170000001f00000028000000320000003d000000490000005600000064000000730000008300000094000000a6000000b9000000cd000000e2000000f80000000f010000
   skillSelectionManager: {fileID: 117364906}
   monsterSpawnManager: {fileID: 983606126}
   progressSlider: {fileID: 879260373}
