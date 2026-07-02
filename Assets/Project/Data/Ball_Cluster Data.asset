@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ball_Cluster Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
   ballPrefab: {fileID: 6010164062608622154, guid: f09b02af240f3804cbf7c4c4e2b86bbb, type: 3}
-  ballName: 
+  ballName: 'Cluster '
   damage: 27
   speed: 12
   criticalChance: 0

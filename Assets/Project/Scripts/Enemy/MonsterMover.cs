@@ -19,13 +19,11 @@ public class MonsterMover : MonoBehaviour
     public void ApplySlow(float slowRate)
     {
         currentMoveSpeed = originMoveSpeed * (1f - slowRate);
-        Debug.Log("감속 적용: " + currentMoveSpeed);
     }
 
     public void ResetSpeed()
     {
         currentMoveSpeed = originMoveSpeed;
-        Debug.Log("감속 해제");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

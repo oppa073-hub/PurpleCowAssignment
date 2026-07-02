@@ -13,8 +13,26 @@ MonoBehaviour:
   m_Name: Ball_Nomal Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
   ballPrefab: {fileID: 6010164062608622154, guid: 3b8d9787e35f7e744b76847293913405, type: 3}
-  ballName: 
+  ballName: 'Nomal '
   damage: 8
   speed: 12
   criticalChance: 0
   criticalDamageRate: 0.5
+  isPiercing: 0
+  isLaser: 0
+  laserDamage: 0
+  laserRowRange: 0.5
+  isFire: 0
+  burnDamagePerSecond: 0
+  maxBurnStack: 0
+  burnDuration: 0
+  isIce: 0
+  freezeChance: 0
+  freezeDuration: 0
+  slowRate: 0
+  extraDamageRate: 0
+  isCluster: 0
+  clusterBallData: {fileID: 0}
+  clusterChance: 0
+  clusterDamage: 0
+  clusterAngle: 25

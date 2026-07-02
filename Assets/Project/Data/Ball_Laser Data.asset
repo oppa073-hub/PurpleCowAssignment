@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ball_Laser Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
   ballPrefab: {fileID: 6010164062608622154, guid: 6310fd50fa0d67c45aa2f9614865ef1a, type: 3}
-  ballName: 
+  ballName: Laser
   damage: 11
   speed: 12
   criticalChance: 0

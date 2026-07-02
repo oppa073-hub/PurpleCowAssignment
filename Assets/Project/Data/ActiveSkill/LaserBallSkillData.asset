@@ -14,19 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   skillName: LaserBallSkill
   skillType: 0
-  icon: {fileID: 0}
+  icon: {fileID: 6460537984911393379, guid: 84d580f2ebbddd347958b8f2f8c7672a, type: 3}
   maxLevel: 3
   levels:
-  - level: 1
-    description: 
-    damage: 11
+  - damage: 11
+    chance: 0
+    duration: 0
     value: 0
-  - level: 2
-    description: 
-    damage: 15
+    subDamage: 7
+    stackCount: 0
+  - damage: 15
+    chance: 0
+    duration: 0
     value: 0
-  - level: 3
-    description: 
-    damage: 19
+    subDamage: 11
+    stackCount: 0
+  - damage: 19
+    chance: 0
+    duration: 0
     value: 0
+    subDamage: 15
+    stackCount: 0
   linkedBallData: {fileID: 11400000, guid: daed6d8e7b43121479500a3c6277c9c9, type: 2}

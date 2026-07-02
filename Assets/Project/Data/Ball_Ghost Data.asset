@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ball_Ghost Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
   ballPrefab: {fileID: 6010164062608622154, guid: 6649a874ff78d2b429beffd6b2261d90, type: 3}
-  ballName: 
+  ballName: Ghost
   damage: 14
   speed: 12
   criticalChance: 0

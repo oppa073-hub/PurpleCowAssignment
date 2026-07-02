@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ball_Fire Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
   ballPrefab: {fileID: 6010164062608622154, guid: a5b08a7654553604e90920e9c664f530, type: 3}
-  ballName: 
+  ballName: Fire
   damage: 21
   speed: 12
   criticalChance: 0
@@ -23,14 +23,14 @@ MonoBehaviour:
   laserDamage: 0
   laserRowRange: 0.5
   isFire: 1
-  burnDamagePerSecond: 20
+  burnDamagePerSecond: 8
   maxBurnStack: 3
-  burnDuration: 5
+  burnDuration: 4
   isIce: 0
-  freezeChance: 1
-  freezeDuration: 3
-  slowRate: 0.5
-  extraDamageRate: 0
+  freezeChance: 0.3
+  freezeDuration: 5
+  slowRate: 0.1
+  extraDamageRate: 0.1
   isCluster: 0
   clusterBallData: {fileID: 11400000, guid: 406cbd604cd63b947beff9224d8a017c, type: 2}
   clusterChance: 1

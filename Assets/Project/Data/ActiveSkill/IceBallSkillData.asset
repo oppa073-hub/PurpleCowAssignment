@@ -14,19 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   skillName: IceBallSkill
   skillType: 0
-  icon: {fileID: 0}
+  icon: {fileID: 498749362002363885, guid: f507fdca3e8a44647829c717f0de2e9f, type: 3}
   maxLevel: 3
   levels:
-  - level: 1
-    description: 
-    damage: 25
-    value: 0
-  - level: 2
-    description: 
-    damage: 37
-    value: 0
-  - level: 3
-    description: 
-    damage: 50
-    value: 0
+  - damage: 25
+    chance: 0.3
+    duration: 5
+    value: 0.1
+    subDamage: 0
+    stackCount: 0
+  - damage: 37
+    chance: 0.35
+    duration: 6
+    value: 0.15
+    subDamage: 0
+    stackCount: 0
+  - damage: 50
+    chance: 0.4
+    duration: 7
+    value: 0.2
+    subDamage: 0
+    stackCount: 0
   linkedBallData: {fileID: 11400000, guid: b9aa11b372de1cb49a908a67db043fc2, type: 2}

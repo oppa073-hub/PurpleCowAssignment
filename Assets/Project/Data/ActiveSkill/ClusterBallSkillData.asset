@@ -14,19 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   skillName: ClusterBallSkill
   skillType: 0
-  icon: {fileID: 0}
+  icon: {fileID: -8720277191398996379, guid: 66bbc45c6d3409040a306210611e640f, type: 3}
   maxLevel: 3
   levels:
-  - level: 1
-    description: 
-    damage: 27
+  - damage: 27
+    chance: 0.4
+    duration: 0
     value: 0
-  - level: 2
-    description: 
-    damage: 30
+    subDamage: 10
+    stackCount: 0
+  - damage: 30
+    chance: 0.5
+    duration: 0
     value: 0
-  - level: 3
-    description: 
-    damage: 33
+    subDamage: 15
+    stackCount: 0
+  - damage: 33
+    chance: 0.6
+    duration: 0
     value: 0
+    subDamage: 20
+    stackCount: 0
   linkedBallData: {fileID: 11400000, guid: 17881911a37d3f844a515572b4578ee2, type: 2}

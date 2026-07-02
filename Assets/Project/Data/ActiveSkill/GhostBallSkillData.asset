@@ -14,19 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   skillName: GhostBallSkill
   skillType: 0
-  icon: {fileID: 0}
+  icon: {fileID: 778793131886074852, guid: b41fba9f8289e6f44a105da92d9d4014, type: 3}
   maxLevel: 3
   levels:
-  - level: 1
-    description: 
-    damage: 14
+  - damage: 14
+    chance: 0
+    duration: 0
     value: 0
-  - level: 2
-    description: 
-    damage: 21
+    subDamage: 0
+    stackCount: 0
+  - damage: 21
+    chance: 0
+    duration: 0
     value: 0
-  - level: 3
-    description: 
-    damage: 28
+    subDamage: 0
+    stackCount: 0
+  - damage: 28
+    chance: 0
+    duration: 0
     value: 0
+    subDamage: 0
+    stackCount: 0
   linkedBallData: {fileID: 11400000, guid: ae581a5d56f509041ae48e7e17c89855, type: 2}

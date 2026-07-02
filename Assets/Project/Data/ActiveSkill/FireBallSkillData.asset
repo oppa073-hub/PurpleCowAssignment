@@ -14,19 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
   skillName: FireBallSkill
   skillType: 0
-  icon: {fileID: 0}
+  icon: {fileID: 6749790375628077161, guid: 38a2963311ad1764a996fe7ad76060e4, type: 3}
   maxLevel: 3
   levels:
-  - level: 1
-    description: 
-    damage: 21
+  - damage: 21
+    chance: 0
+    duration: 4
     value: 0
-  - level: 2
-    description: 
-    damage: 24
+    subDamage: 8
+    stackCount: 3
+  - damage: 24
+    chance: 0
+    duration: 4.5
     value: 0
-  - level: 3
-    description: 
-    damage: 27
-    value: 0
+    subDamage: 10
+    stackCount: 4
+  - damage: 27
+    chance: 0
+    duration: 5
+    value: 12
+    subDamage: 12
+    stackCount: 5
   linkedBallData: {fileID: 11400000, guid: bc518819e09a99647b285a5355ccfb29, type: 2}

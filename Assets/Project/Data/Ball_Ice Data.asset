@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ball_Ice Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
   ballPrefab: {fileID: 6010164062608622154, guid: 40bc0f2238e0b0041b5c35d1a0711cf4, type: 3}
-  ballName: 
+  ballName: Ice
   damage: 25
   speed: 12
   criticalChance: 0
