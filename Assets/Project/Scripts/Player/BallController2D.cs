@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
 public class BallController2D : MonoBehaviour
 {
     [SerializeField] private BallData ballData;
@@ -13,6 +14,8 @@ public class BallController2D : MonoBehaviour
     private float nextHitDamageMultiplier = 1f; //패시브용
     private float criticalChance;
     private float criticalDamageRate;
+
+    private Vector2 lastMoveDirection;
 
     public event Action<BallController2D> OnRecovered;
 
@@ -40,7 +43,6 @@ public class BallController2D : MonoBehaviour
     {
         if (!isMoving) return;
         if (rb.linearVelocity.sqrMagnitude < 0.01f) return;
-
         rb.linearVelocity = rb.linearVelocity.normalized * ballData.speed;
     }
 
@@ -80,11 +82,21 @@ public class BallController2D : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("RecoverZone")) return;
+        if (other.CompareTag("RecoverZone"))
+        {
+            isMoving = false;
+            rb.linearVelocity = Vector2.zero;
+            OnRecovered?.Invoke(this);
+        }
+        if (other.CompareTag("Enemy"))
+        {
+            MonsterHealth monster = other.GetComponent<MonsterHealth>();
 
-        isMoving = false;
-        rb.linearVelocity = Vector2.zero;
-        OnRecovered?.Invoke(this);
+            if (monster != null)
+                monster.TakeDamage(currentDamage);
+
+            return;
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -109,12 +121,8 @@ public class BallController2D : MonoBehaviour
                 monster.TakeDamage(finalDamage);
             }
 
-            nextHitDamageMultiplier = 1f; 
-            
-            if (ballData.isPiercing)
-            {
-                Physics2D.IgnoreCollision(ballCollider, collision.collider, true);
-            }
+            nextHitDamageMultiplier = 1f;
+
             if (ballData.isLaser)
             {
                 HitSameRowEnemies(collision.transform.position.y);
