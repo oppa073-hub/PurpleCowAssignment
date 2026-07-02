@@ -121,6 +121,8 @@ public class BallController2D : MonoBehaviour
             }
             if (ballData.isFire)
             {
+                Debug.Log("파이어볼 효과 실행");
+
                 Burnable burnable = collision.collider.GetComponent<Burnable>();
 
                 if (burnable != null)
@@ -130,6 +132,7 @@ public class BallController2D : MonoBehaviour
             }
             if (ballData.isIce)
             {
+                Debug.Log("아이스볼 효과 실행");
                 if (UnityEngine.Random.value < ballData.freezeChance)
                 {
                     Freezable freezable = collision.collider.GetComponent<Freezable>();

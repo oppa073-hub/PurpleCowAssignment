@@ -8,8 +8,11 @@ public class MonsterHealth : MonoBehaviour
 
     private int currentHp;
     private bool isDead;
+    public int CurrentHp => currentHp;
+    public int MaxHp => monsterData.maxHp;
 
     public event Action<MonsterHealth> OnDead;
+    public event Action<int, int> OnHpChanged;
 
     private void Awake()
     {
@@ -23,6 +26,7 @@ public class MonsterHealth : MonoBehaviour
         OnDead = null;
         MonsterMover mover = GetComponent<MonsterMover>();
         if (mover != null) mover.Initialize(data);
+        OnHpChanged?.Invoke(currentHp, monsterData.maxHp);
     }
 
     public void TakeDamage(int damage)
@@ -31,6 +35,7 @@ public class MonsterHealth : MonoBehaviour
 
         currentHp -= damage;
         DamageTextManager.Instance.ShowDamage(damage, transform.position);
+        OnHpChanged?.Invoke(currentHp, monsterData.maxHp);
 
         if (currentHp <= 0)
         {

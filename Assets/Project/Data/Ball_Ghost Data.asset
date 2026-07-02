@@ -12,9 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2225ed42a0400a049939018f59ec4f31, type: 3}
   m_Name: Ball_Ghost Data
   m_EditorClassIdentifier: Assembly-CSharp::BallData
-  ballPrefab: {fileID: 6010164062608622154, guid: 3b8d9787e35f7e744b76847293913405, type: 3}
+  ballPrefab: {fileID: 6010164062608622154, guid: 6649a874ff78d2b429beffd6b2261d90, type: 3}
   ballName: 
   damage: 14
   speed: 12
   criticalChance: 0
   criticalDamageRate: 0.5
+  isPiercing: 1
+  isLaser: 0
+  laserDamage: 0
+  laserRowRange: 0.5
+  isFire: 0
+  burnDamagePerSecond: 0
+  maxBurnStack: 0
+  burnDuration: 0
+  isIce: 0
+  freezeChance: 0
+  freezeDuration: 0
+  slowRate: 0
+  extraDamageRate: 0
+  isCluster: 0
+  clusterBallData: {fileID: 0}
+  clusterChance: 0
+  clusterDamage: 0
+  clusterAngle: 25

@@ -21,6 +21,13 @@ public class SkillSelectionManager : MonoBehaviour
     {
         currentOptions = GetRandomOptions();
 
+        if (currentOptions.Count <= 0)  //선택지 없을떄 방어
+        {
+            selectionPanel.SetActive(false);
+            GameManager.Instance.ChangeState(GameState.Playing);
+            return;
+        }
+
         for (int i = 0; i < skillCards.Length; i++)
         {
             if (i < currentOptions.Count)
@@ -99,6 +106,7 @@ public class SkillSelectionManager : MonoBehaviour
                 ballManager.AddBall(activeSkill.linkedBallData);
             }
         }
+
         skillInventoryUI.Refresh();
         skillInventoryUI.gameObject.SetActive(false);
         selectionPanel.SetActive(false);

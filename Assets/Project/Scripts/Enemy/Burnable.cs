@@ -27,7 +27,7 @@ public class Burnable : MonoBehaviour
 
         while (timer < duration)
         {
-            monster.TakeDamage(damagePerSecond);
+            monster.TakeDamage(damagePerSecond * currentStack);
             yield return new WaitForSeconds(1f);
             timer += 1f;
         }
