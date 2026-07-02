@@ -31,9 +31,8 @@ public class TrajectoryPreview : MonoBehaviour
         lineRenderer.positionCount = 2;
         lineRenderer.SetPosition(1, firstHit.point);
 
-        if (firstHit.collider.CompareTag("Enemy")) return;
-
-        if (!firstHit.collider.CompareTag("Wall")) return;
+        bool canReflect = firstHit.collider.CompareTag("Wall") || firstHit.collider.CompareTag("Enemy");
+        if (!canReflect) return;
 
         Vector2 reflectDirection = Vector2.Reflect(currentDirection, firstHit.normal);
         Vector2 reflectStartPos = firstHit.point + reflectDirection * 0.05f;
