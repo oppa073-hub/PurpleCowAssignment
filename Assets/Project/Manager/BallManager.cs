@@ -26,8 +26,10 @@ public class BallManager : MonoBehaviour
 
         SkillLevelData levelData = GetSkillLevelData(ballData);
         float wallBonusRate = GetMagicMirrorBonusRate();
-        float critChance = ballData.criticalChance + GetPassiveCriticalChanceBonus();
-        ball.Initialize(ballData, levelData, wallBonusRate, critChance, ballData.criticalDamageRate);
+        float critChance = ballData.criticalChance;
+        float rubyBonus = GetPassiveBonusRate(PassiveType.RubyDagger);
+        float emeraldBonus = GetPassiveBonusRate(PassiveType.EmeraldDagger);
+        ball.Initialize(ballData, levelData, wallBonusRate, critChance, ballData.criticalDamageRate, rubyBonus, emeraldBonus);
         ball.OnRecovered += HandleBallRecovered;
 
         ball.Launch(playerShooter.AimDirection);
@@ -150,24 +152,20 @@ public class BallManager : MonoBehaviour
         return 0f;
     }
 
-    private float GetPassiveCriticalChanceBonus()  //치명타 확률 적용
+    private float GetPassiveBonusRate(PassiveType passiveType)
     {
-        float bonus = 0f;
-
         for (int i = 0; i < inventory.OwnedSkills.Count; i++)
         {
             PassiveSkillData passiveSkill = inventory.OwnedSkills[i].skillData as PassiveSkillData;
 
             if (passiveSkill == null) continue;
+            if (passiveSkill.passiveType != passiveType) continue;
 
-            if (passiveSkill.passiveType == PassiveType.RubyDagger || passiveSkill.passiveType == PassiveType.EmeraldDagger)
-            {
-                int level = inventory.OwnedSkills[i].currentLevel;
-                bonus += passiveSkill.levels[level - 1].value;
-            }
+            int level = inventory.OwnedSkills[i].currentLevel;
+            return passiveSkill.levels[level - 1].value;
         }
 
-        return bonus;
+        return 0f;
     }
 
     public void AddBall(BallData ballData)

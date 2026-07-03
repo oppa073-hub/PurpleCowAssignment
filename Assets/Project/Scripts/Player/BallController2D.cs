@@ -20,6 +20,8 @@ public class BallController2D : MonoBehaviour
     private float criticalChance;
     private float criticalDamageRate;
     private bool isTemporaryBall;  //클러스트볼 용
+    private float rubyDaggerBonusRate; //자수정 단검용
+    private float emeraldDaggerBonusRate; //에메랄드 단검용
 
     private Vector2 lastMoveDirection;
 
@@ -32,7 +34,7 @@ public class BallController2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ballCollider = GetComponent<Collider2D>();
     }
-    public void Initialize(BallData data, SkillLevelData levelData, float wallBonusRate, float critChance, float critDamageRate, bool temporaryBall = false)
+    public void Initialize(BallData data, SkillLevelData levelData, float wallBonusRate, float critChance, float critDamageRate, float rubyBonusRate, float emeraldBonusRate, bool temporaryBall = false)
     {
         ballData = data;
         currentDamage = levelData.damage;
@@ -47,6 +49,8 @@ public class BallController2D : MonoBehaviour
         criticalDamageRate = critDamageRate;
         isMoving = false;
         isTemporaryBall = temporaryBall;
+        rubyDaggerBonusRate = rubyBonusRate;
+        emeraldDaggerBonusRate = emeraldBonusRate;
     }
     private void Update()
     {
@@ -92,7 +96,7 @@ public class BallController2D : MonoBehaviour
 
         BallController2D clusterBall = Instantiate(ballData.clusterBallData.ballPrefab, transform.position, Quaternion.identity);
 
-        clusterBall.Initialize(ballData.clusterBallData, levelData, wallHitDamageBonusRate, criticalChance, criticalDamageRate, true);
+        clusterBall.Initialize(ballData.clusterBallData, levelData, wallHitDamageBonusRate, criticalChance, criticalDamageRate, rubyDaggerBonusRate, emeraldDaggerBonusRate, true);
 
         clusterBall.Launch(splitDirection);
     }
@@ -138,7 +142,22 @@ public class BallController2D : MonoBehaviour
                 int finalDamage = Mathf.RoundToInt(currentDamage * nextHitDamageMultiplier);
                 bool isCritical = false;
 
-                if (UnityEngine.Random.value < criticalChance) //크리티컬 적용
+                float finalCriticalChance = criticalChance;
+                Vector2 hitPoint = collision.GetContact(0).point;
+                Vector2 monsterCenter = collision.collider.bounds.center;
+
+                if (hitPoint.y < monsterCenter.y)
+                {
+                    // 전면
+                    finalCriticalChance += rubyDaggerBonusRate;
+                }
+                else
+                {
+                    // 후면
+                    finalCriticalChance += emeraldDaggerBonusRate;
+                }
+
+                if (UnityEngine.Random.value < finalCriticalChance)
                 {
                     isCritical = true;
                     finalDamage = Mathf.RoundToInt(finalDamage * (1f + criticalDamageRate));
