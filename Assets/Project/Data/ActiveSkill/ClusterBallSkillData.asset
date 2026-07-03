@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a28a390ffa913341abeefed8b426116, type: 3}
+  m_Name: ClusterBallSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
+  skillName: ClusterBallSkill
+  skillType: 0
+  icon: {fileID: -8720277191398996379, guid: 66bbc45c6d3409040a306210611e640f, type: 3}
+  maxLevel: 3
+  levels:
+  - damage: 27
+    chance: 0.4
+    duration: 0
+    value: 0
+    subDamage: 10
+    stackCount: 0
+  - damage: 30
+    chance: 0.5
+    duration: 0
+    value: 0
+    subDamage: 15
+    stackCount: 0
+  - damage: 33
+    chance: 0.6
+    duration: 0
+    value: 0
+    subDamage: 20
+    stackCount: 0
+  linkedBallData: {fileID: 11400000, guid: 17881911a37d3f844a515572b4578ee2, type: 2}

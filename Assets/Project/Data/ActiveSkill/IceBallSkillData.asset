@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a28a390ffa913341abeefed8b426116, type: 3}
+  m_Name: IceBallSkillData
+  m_EditorClassIdentifier: Assembly-CSharp::ActiveSkillData
+  skillName: IceBallSkill
+  skillType: 0
+  icon: {fileID: 498749362002363885, guid: f507fdca3e8a44647829c717f0de2e9f, type: 3}
+  maxLevel: 3
+  levels:
+  - damage: 25
+    chance: 0.3
+    duration: 5
+    value: 0.1
+    subDamage: 0
+    stackCount: 0
+  - damage: 37
+    chance: 0.35
+    duration: 6
+    value: 0.15
+    subDamage: 0
+    stackCount: 0
+  - damage: 50
+    chance: 0.4
+    duration: 7
+    value: 0.2
+    subDamage: 0
+    stackCount: 0
+  linkedBallData: {fileID: 11400000, guid: b9aa11b372de1cb49a908a67db043fc2, type: 2}
