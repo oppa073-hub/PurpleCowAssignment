@@ -136,13 +136,15 @@ public class BallController2D : MonoBehaviour
             if (monster != null)
             {
                 int finalDamage = Mathf.RoundToInt(currentDamage * nextHitDamageMultiplier);
-                
+                bool isCritical = false;
+
                 if (UnityEngine.Random.value < criticalChance) //크리티컬 적용
                 {
+                    isCritical = true;
                     finalDamage = Mathf.RoundToInt(finalDamage * (1f + criticalDamageRate));
                 }
 
-                monster.TakeDamage(finalDamage);
+                monster.TakeDamage(finalDamage, isCritical);
             }
 
             nextHitDamageMultiplier = 1f;

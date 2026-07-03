@@ -15,13 +15,13 @@ public class DamageTextManager : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    public void ShowDamage(int damage, Vector3 worldPosition)
+    public void ShowDamage(int damage, Vector3 worldPosition, bool isCritical = false)
     {
         DamageTextUI damageText = Instantiate(damageTextPrefab, canvas.transform);
 
         Vector3 screenPosition = mainCamera.WorldToScreenPoint(worldPosition);
         damageText.transform.position = screenPosition;
 
-        damageText.Initialize(damage);
+        damageText.Initialize(damage, isCritical);
     }
 }

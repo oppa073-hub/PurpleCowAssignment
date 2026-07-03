@@ -29,12 +29,12 @@ public class MonsterHealth : MonoBehaviour
         OnHpChanged?.Invoke(currentHp, monsterData.maxHp);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isCritical = false)
     {
         if (isDead) return;
 
         currentHp -= damage;
-        DamageTextManager.Instance.ShowDamage(damage, transform.position);
+        DamageTextManager.Instance.ShowDamage(damage, transform.position, isCritical);
         OnHpChanged?.Invoke(currentHp, monsterData.maxHp);
 
         if (currentHp <= 0)
