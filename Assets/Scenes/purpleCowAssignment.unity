@@ -6595,7 +6595,7 @@ MonoBehaviour:
   normalBallCount: 5
   firePoint: {fileID: 372025610}
   playerShooter: {fileID: 1110650145}
-  fireInterval: 0.08
+  fireInterval: 0.18
   inventory: {fileID: 1110650146}
 --- !u!4 &2112686504
 Transform:

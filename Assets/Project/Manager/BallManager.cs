@@ -12,6 +12,7 @@ public class BallManager : MonoBehaviour
     [SerializeField] private PlayerShooter2D playerShooter;
     [SerializeField] private float fireInterval = 0.08f;
     [SerializeField] private PlayerSkillInventory inventory;
+    private int recoverFireIndex;
 
     private void Start()
     {
@@ -52,20 +53,31 @@ public class BallManager : MonoBehaviour
         }
     }
 
-    private IEnumerator FireOneBall(BallData ballData) //회수된 볼을 일정 시간 후 다시 발사
+    private IEnumerator FireOneBall(BallData ballData, float delay) //회수된 볼을 일정 시간 후 다시 발사
     {
-        yield return new WaitForSeconds(fireInterval);
+        yield return new WaitForSeconds(delay);
 
         if (GameManager.Instance.CurrentState != GameState.Playing) yield break;
+
         FireOneBallImmediate(ballData);
     }
 
     private void HandleBallRecovered(BallController2D ball) //회수된 볼 제거 후 새로운 볼 발사
     {
         ball.OnRecovered -= HandleBallRecovered;
+
         BallData recoveredBall = ball.BallData;
         ObjectPoolManager.Instance.ReturnObject(ball.gameObject);
-        StartCoroutine(FireOneBall(recoveredBall));
+
+        float delay = fireInterval * recoverFireIndex;
+        recoverFireIndex++;
+
+        StartCoroutine(FireOneBall(recoveredBall, delay));
+
+        if (recoverFireIndex > normalBallCount + equippedBalls.Count)
+        {
+            recoverFireIndex = 0;
+        }
     }
 
     //private int CalculateFinalDamage(BallData ballData)
@@ -178,6 +190,6 @@ public class BallManager : MonoBehaviour
         }
 
         equippedBalls.Add(ballData);
-        StartCoroutine(FireOneBall(ballData)); //새로운 공 한개만 발사
+        StartCoroutine(FireOneBall(ballData, fireInterval)); //새로운 공 한개만 발사
     }
 }
